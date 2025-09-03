@@ -161,7 +161,7 @@
     text-decoration: none !important;
     font-size: ${buttonFontSize}px !important;
     font-weight: 500 !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     backdrop-filter: blur(10px) !important;
