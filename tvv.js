@@ -1,11 +1,11 @@
-/* VideoAsk-Style Widget - Final Enhanced Version */
+/* TinyVerticalVideo Widget - Final Enhanced Version */
 /* Responsive button scaling and custom avatar URL support */
 
 (function() {
     'use strict';
     
     // Default configuration (can be overridden)
-    window.VideoAskWidget = window.VideoAskWidget || {};
+    window.TinyVerticalVideo = window.TinyVerticalVideo || {};
     const config = Object.assign({
         enableVideoToggle: true,
         avatarImage: "", // Custom URL or empty for no image
@@ -14,7 +14,7 @@
         loopVideo: true,
         videoWidth: 275, // Increased default width
         overlayButtons: [] // Array of {text: "", url: "", letter: "A"}
-    }, window.VideoAskWidget.config || {});
+    }, window.TinyVerticalVideo.config || {});
     
     // Calculate height based on 9:16 ratio
     const videoHeight = Math.round(config.videoWidth * (16/9));
@@ -47,14 +47,14 @@
     
     // Inject CSS styles
     function injectStyles() {
-        if (document.getElementById('videoask-widget-styles')) return;
+        if (document.getElementById('tiny-vertical-video-styles')) return;
         
         const buttonFontSize = getButtonFontSize();
         const buttonPadding = getButtonPadding();
         const buttonCircleSize = getButtonCircleSize();
         
         const css = `
-/* VideoAsk-Style Widget CSS - Final Enhanced */
+/* TinyVerticalVideo Widget CSS - Final Enhanced */
 .vertical-video {
     position: relative !important;
     width: ${config.videoWidth}px !important;
@@ -110,7 +110,7 @@
     margin: 0 !important;
 }
 
-.videoask-play-button {
+.tvv-play-button {
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
@@ -123,22 +123,22 @@
     transition: all 0.3s ease !important;
 }
 
-.videoask-play-button:hover {
+.tvv-play-button:hover {
     transform: translate(-50%, -50%) scale(1.1) !important;
 }
 
-.videoask-play-button .play-icon {
+.tvv-play-button .play-icon {
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) !important;
 }
 
-.videoask-play-button.hidden {
+.tvv-play-button.hidden {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
 }
 
 /* Responsive Overlay Buttons */
-.videoask-overlay-buttons {
+.tvv-overlay-buttons {
     position: absolute !important;
     bottom: 15px !important;
     left: 15px !important;
@@ -149,7 +149,7 @@
     z-index: 1001 !important;
 }
 
-.videoask-overlay-button {
+.tvv-overlay-button {
     display: flex !important;
     align-items: center !important;
     gap: 12px !important;
@@ -166,13 +166,13 @@
     backdrop-filter: blur(10px) !important;
 }
 
-.videoask-overlay-button:hover {
+.tvv-overlay-button:hover {
     border-color: ${config.avatarColor} !important;
     background: rgba(0, 0, 0, 0.9) !important;
     transform: translateY(-2px) !important;
 }
 
-.videoask-overlay-button-circle {
+.tvv-overlay-button-circle {
     width: ${buttonCircleSize}px !important;
     height: ${buttonCircleSize}px !important;
     border-radius: 50% !important;
@@ -194,7 +194,7 @@
     display: none !important;
 }
 
-.videoask-float-cta {
+.tvv-float-cta {
     position: fixed !important;
     bottom: 30px !important;
     right: 30px !important;
@@ -213,12 +213,12 @@
     overflow: hidden !important;
 }
 
-.videoask-float-cta:hover {
+.tvv-float-cta:hover {
     transform: scale(1.1) !important;
     box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6) !important;
 }
 
-.videoask-float-cta img {
+.tvv-float-cta img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
@@ -239,7 +239,7 @@
     transition: all 0.3s ease !important;
 }
 
-.videoask-float-cta.video-hidden::after {
+.tvv-float-cta.video-hidden::after {
     content: "▶" !important;
     position: absolute !important;
     color: white !important;
@@ -248,7 +248,7 @@
     z-index: 10002 !important;
 }
 
-.videoask-float-cta.video-visible::after {
+.tvv-float-cta.video-visible::after {
     content: "✕" !important;
     position: absolute !important;
     color: white !important;
@@ -264,50 +264,50 @@
         margin: 10px auto !important;
     }
     
-    .videoask-overlay-button {
+    .tvv-overlay-button {
         font-size: ${Math.max(10, buttonFontSize - 1)}px !important;
         padding: 6px 12px !important;
     }
     
-    .videoask-overlay-button-circle {
+    .tvv-overlay-button-circle {
         width: ${Math.max(18, buttonCircleSize - 4)}px !important;
         height: ${Math.max(18, buttonCircleSize - 4)}px !important;
         font-size: ${Math.max(8, Math.round(buttonCircleSize * 0.4))}px !important;
     }
     
-    .videoask-float-cta {
+    .tvv-float-cta {
         width: 50px !important;
         height: 50px !important;
         bottom: 20px !important;
         right: 20px !important;
     }
     
-    .videoask-float-cta.video-hidden::after {
+    .tvv-float-cta.video-hidden::after {
         font-size: 14px !important;
     }
     
-    .videoask-float-cta.video-visible::after {
+    .tvv-float-cta.video-visible::after {
         font-size: 12px !important;
     }
 }
 `;
         
         const style = document.createElement('style');
-        style.id = 'videoask-widget-styles';
+        style.id = 'tiny-vertical-video-styles';
         style.textContent = css;
         document.head.appendChild(style);
     }
     
-    // Initialize the VideoAsk widget
-    function initVideoAskWidget() {
+    // Initialize the TinyVerticalVideo widget
+    function initTinyVerticalVideo() {
         const verticalVideo = document.querySelector('.vertical-video');
         
         if (!verticalVideo) {
-            console.log('VideoAsk Widget: No element with .vertical-video class found');
+            console.log('TinyVerticalVideo: No element with .vertical-video class found');
             return;
         }
         
-        console.log('VideoAsk Widget: Initializing...');
+        console.log('TinyVerticalVideo: Initializing...');
         
         verticalVideo.classList.add('visible');
         setupVideoPlayback(verticalVideo);
@@ -317,7 +317,7 @@
             addFloatingCTA(verticalVideo);
         }
         
-        console.log('VideoAsk Widget: Initialized successfully');
+        console.log('TinyVerticalVideo: Initialized successfully');
     }
     
     // Setup video playback with clean play button
@@ -329,7 +329,7 @@
             return;
         }
         
-        const existingOverlay = videoContainer.querySelector('.videoask-text-overlay');
+        const existingOverlay = videoContainer.querySelector('.tvv-text-overlay');
         if (existingOverlay) {
             existingOverlay.remove();
         }
@@ -340,7 +340,7 @@
         videoElement.controls = false;
         
         const playButton = document.createElement('div');
-        playButton.className = 'videoask-play-button';
+        playButton.className = 'tvv-play-button';
         playButton.innerHTML = `
             <div class="play-icon">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -362,9 +362,9 @@
             videoElement.currentTime = 0;
             videoElement.muted = false;
             videoElement.play().then(() => {
-                console.log('VideoAsk Widget: Video started with audio');
+                console.log('TinyVerticalVideo: Video started with audio');
             }).catch(err => {
-                console.log('VideoAsk Widget: Video play error:', err);
+                console.log('TinyVerticalVideo: Video play error:', err);
             });
         });
         
@@ -400,18 +400,18 @@
         }
         
         const buttonsContainer = document.createElement('div');
-        buttonsContainer.className = 'videoask-overlay-buttons';
+        buttonsContainer.className = 'tvv-overlay-buttons';
         
         config.overlayButtons.forEach((button, index) => {
             if (index >= 3) return; // Max 3 buttons
             
             const buttonElement = document.createElement('a');
-            buttonElement.className = 'videoask-overlay-button';
+            buttonElement.className = 'tvv-overlay-button';
             buttonElement.href = button.url || '#';
             buttonElement.target = button.url ? '_blank' : '_self';
             
             buttonElement.innerHTML = `
-                <div class="videoask-overlay-button-circle">${button.letter || String.fromCharCode(65 + index)}</div>
+                <div class="tvv-overlay-button-circle">${button.letter || String.fromCharCode(65 + index)}</div>
                 <span>${button.text || `Button ${index + 1}`}</span>
             `;
             
@@ -429,12 +429,12 @@
     
     // Add floating CTA button
     function addFloatingCTA(videoElement) {
-        if (document.querySelector('.videoask-float-cta')) {
+        if (document.querySelector('.tvv-float-cta')) {
             return;
         }
         
         const floatCTA = document.createElement('div');
-        floatCTA.className = 'videoask-float-cta video-visible';
+        floatCTA.className = 'tvv-float-cta video-visible';
         
         if (config.avatarImage && config.avatarImage.trim() !== '') {
             floatCTA.innerHTML = `<img src="${config.avatarImage}" alt="Avatar">`;
@@ -464,12 +464,12 @@
     injectStyles();
     
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initVideoAskWidget);
+        document.addEventListener('DOMContentLoaded', initTinyVerticalVideo);
     } else {
-        initVideoAskWidget();
+        initTinyVerticalVideo();
     }
     
-    setTimeout(initVideoAskWidget, 1000);
+    setTimeout(initTinyVerticalVideo, 1000);
     
 })();
 
