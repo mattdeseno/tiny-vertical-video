@@ -119,8 +119,9 @@
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    z-index: 1000 !important;
+    z-index: 100 !important;
     transition: all 0.3s ease !important;
+    pointer-events: auto !important;
 }
 
 .tvv-play-button:hover {
@@ -146,7 +147,8 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 8px !important;
-    z-index: 1001 !important;
+    z-index: 101 !important;
+    pointer-events: none !important;
 }
 
 .tvv-overlay-button {
@@ -165,6 +167,7 @@
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     backdrop-filter: blur(10px) !important;
+    pointer-events: auto !important;
 }
 
 .tvv-overlay-button:hover {
@@ -205,13 +208,14 @@
     background: ${config.avatarColor} !important;
     border: 3px solid ${config.avatarColor} !important;
     cursor: pointer !important;
-    z-index: 10001 !important;
+    z-index: 999 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4) !important;
     transition: all 0.3s ease !important;
     overflow: hidden !important;
+    pointer-events: auto !important;
 }
 
 .tvv-float-cta:hover {
