@@ -7,13 +7,15 @@
     // Default configuration (can be overridden)
     window.TinyVerticalVideo = window.TinyVerticalVideo || {};
     const config = Object.assign({
-        enableVideoToggle: true,
+        enableVideoToggle: true, // Show/hide avatar circle
         avatarImage: "", // Custom URL or empty for no image
         avatarColor: "#FF6B35",
         autoplayMuted: true,
         loopVideo: true,
         videoWidth: 275, // Increased default width
-        overlayButtons: [] // Array of {text: "", url: "", letter: "A"}
+        overlayButtons: [], // Array of {text: "", url: "", letter: "A"}
+        widgetStyle: "floating", // "fixed" or "floating"
+        floatingPosition: "bottom-right" // "bottom-right" or "bottom-left"
     }, window.TinyVerticalVideo.config || {});
     
     // Calculate height based on 9:16 ratio
@@ -45,6 +47,29 @@
         return 24;
     };
     
+    const getFloatingPosition = () => {
+        if (config.floatingPosition === 'bottom-left') {
+            return 'bottom: 30px !important; left: 30px !important;';
+        } else {
+            return 'bottom: 30px !important; right: 30px !important;';
+        }
+    };
+    
+    const getAvatarPosition = () => {
+        if (config.widgetStyle === 'floating') {
+            if (config.floatingPosition === 'bottom-left') {
+                // Video is on bottom-left, avatar attaches to bottom-left corner
+                return `bottom: 30px !important; left: ${30 - 30}px !important; right: auto !important;`;
+            } else {
+                // Video is on bottom-right, avatar attaches to bottom-right corner  
+                return `bottom: 30px !important; right: ${30 - 30}px !important; left: auto !important;`;
+            }
+        } else {
+            // Fixed positioning - default bottom right
+            return 'bottom: 30px !important; right: 30px !important; left: auto !important;';
+        }
+    };
+    
     // Inject CSS styles
     function injectStyles() {
         if (document.getElementById('tiny-vertical-video-styles')) return;
@@ -56,16 +81,18 @@
         const css = `
 /* TinyVerticalVideo Widget CSS - Final Enhanced */
 .vertical-video {
-    position: relative !important;
+    position: ${config.widgetStyle === 'fixed' ? 'relative' : 'fixed'} !important;
     width: ${config.videoWidth}px !important;
     height: ${videoHeight}px !important;
     border-radius: 25px !important;
     overflow: hidden !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-    margin: 20px auto !important;
+    margin: ${config.widgetStyle === 'fixed' ? '20px auto' : '0'} !important;
     border: none !important;
     background: #000 !important;
     padding: 0 !important;
+    ${config.widgetStyle === 'floating' ? getFloatingPosition() : ''}
+    z-index: ${config.widgetStyle === 'floating' ? '998' : 'auto'} !important;
 }
 
 .vertical-video video,
@@ -200,8 +227,6 @@
 
 .tvv-float-cta {
     position: fixed !important;
-    bottom: 30px !important;
-    right: 30px !important;
     width: ${avatarSize} !important;
     height: ${avatarSize} !important;
     border-radius: 50% !important;
@@ -216,6 +241,7 @@
     transition: all 0.3s ease !important;
     overflow: hidden !important;
     pointer-events: auto !important;
+    ${getAvatarPosition()}
 }
 
 .tvv-float-cta:hover {
