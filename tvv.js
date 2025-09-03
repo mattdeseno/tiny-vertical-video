@@ -1,5 +1,6 @@
 /* TinyVerticalVideo Widget - Final Enhanced Version */
 /* Responsive button scaling and custom avatar URL support */
+/* v1.6.0 */
 
 (function() {
     'use strict';
@@ -20,6 +21,9 @@
     
     // Calculate height based on 9:16 ratio
     const videoHeight = Math.round(config.videoWidth * (16/9));
+    
+    console.log('TinyVerticalVideo: Initializing...');
+    console.log('Config loaded:', config);
     const avatarSize = config.videoWidth < 150 ? "50px" : "60px";
     
     // Calculate responsive button font size
@@ -72,11 +76,22 @@
     
     // Inject CSS styles
     function injectStyles() {
-        if (document.getElementById('tiny-vertical-video-styles')) return;
+        // Remove existing styles if they exist
+        const existingStyles = document.getElementById('tiny-vertical-video-styles');
+        if (existingStyles) {
+            existingStyles.remove();
+        }
         
         const buttonFontSize = getButtonFontSize();
         const buttonPadding = getButtonPadding();
         const buttonCircleSize = getButtonCircleSize();
+        
+        console.log('Generating CSS with config:', {
+            widgetStyle: config.widgetStyle,
+            videoWidth: config.videoWidth,
+            avatarColor: config.avatarColor,
+            expectedPosition: config.widgetStyle === 'fixed' ? 'relative' : 'fixed'
+        });
         
         const css = `
 /* TinyVerticalVideo Widget CSS - Final Enhanced */
@@ -492,15 +507,22 @@
     }
     
     // Initialize
-    injectStyles();
-    
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initTinyVerticalVideo);
-    } else {
-        initTinyVerticalVideo();
+    function initialize() {
+        // Inject styles first with the loaded config
+        injectStyles();
+        
+        // Then initialize the video widgets
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTinyVerticalVideo);
+        } else {
+            initTinyVerticalVideo();
+        }
+        
+        setTimeout(initTinyVerticalVideo, 1000);
     }
     
-    setTimeout(initTinyVerticalVideo, 1000);
+    // Start initialization
+    initialize();
     
 })();
 
