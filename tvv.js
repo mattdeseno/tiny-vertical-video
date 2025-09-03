@@ -80,7 +80,7 @@
         
         const css = `
 /* TinyVerticalVideo Widget CSS - Final Enhanced */
-.vertical-video {
+.vertical-video.vertical-video {
     position: ${config.widgetStyle === 'fixed' ? 'relative' : 'fixed'} !important;
     width: ${config.videoWidth}px !important;
     height: ${videoHeight}px !important;
